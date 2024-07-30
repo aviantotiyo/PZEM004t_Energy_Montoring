@@ -18,6 +18,7 @@ void setup() {
 }
 
 void loop() {
+  // Membaca dan menampilkan tegangan
   float voltage = pzem.voltage();
   if (!isnan(voltage)) {
     Serial.print("Voltage: ");
@@ -33,6 +34,7 @@ void loop() {
     lcd.print("Voltage: ERR");
   }
 
+  // Membaca dan menampilkan arus
   float current = pzem.current();
   if (!isnan(current)) {
     Serial.print("Current: ");
@@ -49,7 +51,8 @@ void loop() {
   }
 
   delay(2000);
-
+  lcd.clear();
+  // Membaca dan menampilkan daya dalam watt (W)
   float power = pzem.power();
   if (!isnan(power)) {
     Serial.print("Power: ");
@@ -65,15 +68,16 @@ void loop() {
     lcd.print("Power: ERR");
   }
 
-  float energy = pzem.energy();
+  // Membaca dan menampilkan energi dalam watt-jam (Wh)
+  float energy = pzem.energy() * 1000; // Mengonversi kWh ke Wh
   if (!isnan(energy)) {
     Serial.print("Energy: ");
-    Serial.print(energy, 3);
-    Serial.println("kWh");
+    Serial.print(energy, 0);
+    Serial.println("Wh");
     lcd.setCursor(0, 1);
     lcd.print("Energy: ");
-    lcd.print(energy, 3);
-    lcd.print("kWh  ");
+    lcd.print(energy, 0);
+    lcd.print("Wh ");
   } else {
     Serial.println("Error reading energy");
     lcd.setCursor(0, 1);
@@ -81,14 +85,16 @@ void loop() {
   }
 
   delay(2000);
+  lcd.clear();
 
+  // Membaca dan menampilkan frekuensi
   float frequency = pzem.frequency();
   if (!isnan(frequency)) {
-    Serial.print("Frequency: ");
+    Serial.print("Freq: ");
     Serial.print(frequency, 1);
     Serial.println("Hz");
     lcd.setCursor(0, 0);
-    lcd.print("Frequency: ");
+    lcd.print("Freq: ");
     lcd.print(frequency, 1);
     lcd.print("Hz  ");
   } else {
@@ -97,6 +103,7 @@ void loop() {
     lcd.print("Freq: ERR");
   }
 
+  // Membaca dan menampilkan faktor daya
   float pf = pzem.pf();
   if (!isnan(pf)) {
     Serial.print("PF: ");
